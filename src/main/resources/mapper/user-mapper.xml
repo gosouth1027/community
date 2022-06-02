@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sadness.community.dao.UserMapper">
+
+    <sql id="selectFields">
+        id, username, password, salt, email, type, status, activation_code, header_url, create_time
+    </sql>
+
+    <sql id="insertFields">
+        username, password, salt, email, type, status, activation_code, header_url, create_time
+    </sql>
+
+    <!--User selectUserById(@Param("id") int id);-->
+    <select id="selectUserById" resultType="User">
+        select <include refid="selectFields"></include>
+        from user
+        where id = #{id}
+    </select>
+
+    <!--User selectUserByUsername(@Param("username") String username);-->
+    <select id="selectUserByUsername" resultType="com.sadness.community.entity.User">
+        select <include refid="selectFields"></include>
+        from user
+        where username = #{username}
+    </select>
+
+    <!--User selectUserByEmail(@Param("email") String email);-->
+    <select id="selectUserByEmail" resultType="com.sadness.community.entity.User">
+        select <include refid="selectFields"></include>
+        from user
+        where email = #{email}
+    </select>
+
+    <!--int insertUser(User user);-->
+    <insert id="insertUser" keyProperty="id">
+        insert into user(<include refid="insertFields"></include>)
+        values(#{username}, #{password}, #{salt}, #{email}, #{type}, #{status}, #{activationCode}, #{headerUrl}, #{createTime})
+    </insert>
+
+    <!--int updateStatus(@Param("id") int id, @Param("status") int status);-->
+    <update id="updateStatus">
+        update user set status = #{status} where id = #{id}
+    </update>
+
+    <!--int updateHeader(@Param("id") int id, @Param("headerUrl") String headerUrl);-->
+    <update id="updateHeader">
+        update user set header_url = #{headerUrl} where id = #{id}
+    </update>
+
+    <!--int updatePassword(@Param("id") int id, @Param("password") String password);-->
+    <update id="updatePassword">
+        update user set password = #{password} where id = #{id}
+    </update>
+
+
+</mapper>
