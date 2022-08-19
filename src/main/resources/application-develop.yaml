@@ -1,0 +1,64 @@
+server:
+  servlet:
+    context-path: /community
+
+spring:
+  thymeleaf:
+    cache: false
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/community?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password: 106012
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 15
+      minimum-idle: 5
+      idle-timeout: 30000
+
+  mail:
+    host: smtp.163.com
+    port: 465
+    username: sadandbeautiful@163.com
+    password: SDTAWKPJVMKYPIZJ
+    protocol: smtps
+    properties:
+
+  redis:
+    database: 7
+    port: 6379
+    host: localhost
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: community-consumer-group
+      enable-auto-commit: true
+      auto-commit-interval: 3000
+
+  elasticsearch:
+    uris: 127.0.0.1:9200
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 15
+        queue-capacity: 100
+    scheduling:
+      pool:
+        size: 5
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.sadness.community.entity
+  configuration:
+    use-generated-keys: true
+    map-underscore-to-camel-case: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
