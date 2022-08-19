@@ -1,13 +1,16 @@
 package com.sadness.community.controller;
 
 import com.sadness.community.service.AlphaService;
+import com.sadness.community.util.CommunityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,8 +22,8 @@ import java.util.Map;
  * @Date 2022/5/30 8:45
  * @Author SadAndBeautiful
  */
-//@Controller
-//@RequestMapping("/alpha")
+@Controller
+@RequestMapping("/alpha")
 public class AlphaController {
 
     @Autowired
@@ -62,7 +65,7 @@ public class AlphaController {
     @ResponseBody
     public String getStudent(
             @PathVariable("id") int id
-    ){
+    ) {
         System.out.println(id);
         return "a student " + id;
     }
@@ -73,7 +76,7 @@ public class AlphaController {
             @RequestParam("name") String name,
             @RequestParam("age") int age
 
-    ){
+    ) {
         System.out.println(name);
         System.out.println(age);
         return "success";
@@ -81,7 +84,7 @@ public class AlphaController {
 
 
     @GetMapping("/hero")
-    public String getHero(Model model){
+    public String getHero(Model model) {
         model.addAttribute("name", "赵云");
         model.addAttribute("age", "35");
         return "/demo/view";
@@ -89,7 +92,7 @@ public class AlphaController {
 
     @GetMapping("/emp")
     @ResponseBody
-    public Map<String, Object> getEmp(){
+    public Map<String, Object> getEmp() {
         Map<String, Object> map = new HashMap<>();
         map.put("name", "张三");
         map.put("age", 25);
@@ -99,7 +102,7 @@ public class AlphaController {
 
     @GetMapping("/emps")
     @ResponseBody
-    public List<Map<String, Object>> getEmps(){
+    public List<Map<String, Object>> getEmps() {
 
         List<Map<String, Object>> maps = new ArrayList<>();
 
@@ -124,6 +127,49 @@ public class AlphaController {
         return maps;
     }
 
+    /**
+     * 演示cookie
+     */
+    @GetMapping("/cookie/set")
+    @ResponseBody
+    public String setCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("yan", "000000");
+        cookie.setPath("/community/alpha");
+        cookie.setMaxAge(600);
+        response.addCookie(cookie);
+        return "set cookie";
+    }
+
+    @GetMapping("/cookie/get")
+    @ResponseBody
+    public String getCookie(@CookieValue("yan") Cookie cookie) {
+        return cookie.getValue();
+    }
+
+    /**
+     * 演示session
+     */
+    @GetMapping("/session/set")
+    @ResponseBody
+    public String setSession(HttpSession session) {
+        session.setAttribute("shu", "123123");
+        return "set cookie";
+    }
+
+    @GetMapping("/session/get")
+    @ResponseBody
+    public String getSession(HttpSession session) {
+        System.out.println(session);
+        return "get session";
+    }
+
+    @PostMapping("/ajax")
+    @ResponseBody
+    public String textAjax(String name, int age) {
+        System.out.println(name);
+        System.out.println(age);
+        return CommunityUtil.getJSONString(0, "疯狂肯德基谁请我吃？");
+    }
 
 
 }

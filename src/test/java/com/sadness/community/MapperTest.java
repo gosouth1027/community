@@ -70,7 +70,7 @@ public class MapperTest {
     public void testDiscussPosts(){
         int count = discussPostMapper.selectCount(133);
         System.out.println(count);
-        List<DiscussPost> discussPosts = discussPostMapper.selectDiscussPosts(133, 0, 5);
+        List<DiscussPost> discussPosts = discussPostMapper.selectDiscussPosts(133, 0, 5, 0);
         for (DiscussPost discussPost : discussPosts) {
             System.out.println(discussPost);
         }
