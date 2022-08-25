@@ -40,7 +40,7 @@ public class LikeService {
                    operations.opsForValue().decrement(userLikeKey);
                } else {
                    operations.opsForSet().add(entityLikeKey, userId);
-                   operations.opsForValue().increment(userLikeKey);
+                    operations.opsForValue().increment(userLikeKey);
                }
                return redisTemplate.exec();
            }

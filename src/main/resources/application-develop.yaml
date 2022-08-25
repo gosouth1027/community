@@ -26,7 +26,7 @@ spring:
     properties:
 
   redis:
-    database: 7
+    database: 1
     port: 6379
     host: localhost
 

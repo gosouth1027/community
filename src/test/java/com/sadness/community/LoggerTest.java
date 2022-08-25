@@ -15,10 +15,6 @@ public class LoggerTest {
 
     @Test
     public void test1() {
-        System.out.println(log.getName());
-        log.debug("debug");
-        log.info("info");
-        log.warn("warn");
-        log.error("error");
+        char c = '.';
     }
 }

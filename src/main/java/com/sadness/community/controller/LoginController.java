@@ -27,6 +27,7 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @version 1.0
@@ -127,7 +128,7 @@ public class LoginController implements CommunityConstant {
         response.addCookie(cookie);
         // 获取Redis存储的Key并存储验证码
         String kaptchaKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
-        redisTemplate.opsForValue().set(kaptchaKey, text);
+        redisTemplate.opsForValue().set(kaptchaKey, text, 60, TimeUnit.SECONDS);
 
         // 验证码生成的图片传给服务器
         response.setContentType("image/png");
